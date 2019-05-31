@@ -1,0 +1,12 @@
+{
+  "name": "cuhacking-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "indeed-scraper": "^3.0.1",
+    "node-fetch": "^2.6.0",
+    "request-promise": "^4.2.4"
+  },
+  "description": ""
+}
