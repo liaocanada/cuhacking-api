@@ -2,15 +2,6 @@ const getEducationStats = require("./api/education-statistics.js");
 
 exports.handler = async (event, context, callback) => {
 
-    // let requestBody = JSON.parse(event.body);
-    // let requestBody = event;
-
-    // let career = requestBody.career;
-    // let city = requestBody.city;
-    // let province = requestBody.province;
-    // let experience = requestBody.experience;
-    // let position = requestBody.position;
-
     let career = event["queryStringParameters"]['career'];
     let city = event["queryStringParameters"]['city'];
     let province = event["queryStringParameters"]['province'];
