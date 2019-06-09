@@ -1,3 +1,7 @@
+// Sorry, specializations that are commonly used out of the context of degrees
+//    have been removed, like history, architecture, etc. When we get some machine
+//    learning set up to detect what phrase is a specialization, we will add them back.
+
 var specializations = { 
   'GENERAL AGRICULTURE': 0,
   'AGRICULTURE PRODUCTION AND MANAGEMENT': 0,
@@ -76,7 +80,7 @@ var specializations = {
   'ART AND MUSIC EDUCATION': 0,
   'MISCELLANEOUS EDUCATION': 0,
   'LIBRARY SCIENCE': 0,
-  ARCHITECTURE: 0,
+  // ARCHITECTURE: 0,
   'GENERAL ENGINEERING': 0,
   'AEROSPACE ENGINEERING': 0,
   'BIOLOGICAL ENGINEERING': 0,
@@ -130,7 +134,7 @@ var specializations = {
   'THEOLOGY AND RELIGIOUS VOCATIONS': 0,
   'ANTHROPOLOGY AND ARCHEOLOGY': 0,
   'ART HISTORY AND CRITICISM': 0,
-  HISTORY: 0,
+  // HISTORY: 0,
   'UNITED STATES HISTORY': 0,
   'COSMETOLOGY SERVICES AND CULINARY ARTS': 0,
   'FAMILY AND CONSUMER SCIENCES': 0,
@@ -145,7 +149,7 @@ var specializations = {
   'CRIMINAL JUSTICE AND FIRE PROTECTION': 0,
   'PUBLIC ADMINISTRATION': 0,
   'PUBLIC POLICY': 0,
-  'N/A (less than bachelor\'s degree)': 0,
+  // 'N/A (less than bachelor\'s degree)': 0,
   'PHYSICAL SCIENCES': 0,
   'ASTRONOMY AND ASTROPHYSICS': 0,
   'ATMOSPHERIC SCIENCES AND METEOROLOGY': 0,
@@ -173,6 +177,7 @@ var specializations = {
   'INTERNATIONAL RELATIONS': 0,
   'POLITICAL SCIENCE AND GOVERNMENT': 0,
   SOCIOLOGY: 0,
-  'MISCELLANEOUS SOCIAL SCIENCES': 0 };
+  'MISCELLANEOUS SOCIAL SCIENCES': 0 
+};
 
   module.exports = specializations;

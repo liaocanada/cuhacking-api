@@ -17,10 +17,11 @@ app.get('/stats', (req, res) => {
     let career = req.query.career;
     let city = req.query.city;
     let province = req.query.province;
+    let country = req.query.country;
     let experience = req.query.experience;
     let position = req.query.position;
 
-    getEducationStats(career, city, province, experience, position)
+    getEducationStats(career, city, province, country, experience, position)
         .then(stats => {
             res.send(stats);
         });

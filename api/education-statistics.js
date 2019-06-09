@@ -1,7 +1,7 @@
 let getGithubDescriptions = require("./github-dao.js");
 let getIndeedDescriptions = require("./indeed-dao.js");
 
-// let fs = require('fs');  // for debug 
+let fs = require('fs');  // for debug 
 
 let bachelorsRegex = /[Bb]achelor|[Pp]ost[- ][Ss]econdary/g;
 let mastersRegex = /[Mm]aster['’]s/g;
@@ -10,7 +10,7 @@ let phdRegex = /[Pp][Hh][Dd]|[Dd]octoral|[Dd]octorate|[Dd]octor['’]s/g;
 let specializations = require("../resources/specializations.js");
 let degreeLevels = { none: 0, bachelors: 0, masters: 0, phd: 0 };
 
-let getEducationStatistics = async (description, city, province, level, jobType) => {
+let getEducationStatistics = async (description, city, province, country, level, jobType) => {
 	
 	// Reset counters
 	Object.keys(specializations).forEach(key => specializations[key] = 0)
@@ -18,7 +18,7 @@ let getEducationStatistics = async (description, city, province, level, jobType)
 
 	// Get descriptions
 	let githubJobsList = getGithubDescriptions(description, city, jobType === "fulltime");
-	let indeedJobsList = getIndeedDescriptions(description, city, province, level, jobType);
+	let indeedJobsList = getIndeedDescriptions(description, city, province, country, level, jobType);
 
 	// Merge
 	let allDescriptions = Promise.all([githubJobsList, indeedJobsList]);
@@ -30,14 +30,26 @@ let getEducationStatistics = async (description, city, province, level, jobType)
 		console.log('Total:', descriptions.length);
 
 		// For debugging
-		// descriptions.forEach((description, i) => console.log(i, "Description: ", description.substring(0, 20)));
-		var descriptionsString = '';
-		descriptions.forEach((description, i) => {
-			descriptionsString += (i + ': ' + description + '\n\n');
-		});
-		// fs.writeFile('descriptions.txt', descriptionsString, err => { 
-		// 	if (err) throw err; 
-		// });
+		// if (process.env.NODE_ENV !== 'production') {
+		// 	descriptions.forEach((description, i) => console.log(i, "Description: ", description.substring(0, 20)));
+		// }
+		if (process.env.NODE_ENV !== 'production') {
+			try {
+			descriptions.forEach((description, i) => {
+				fs.writeFile(
+					'descriptions/desc' + i + '.txt',  		// Location
+					i + ': ' + description,  				// Data
+					(error, result) => {
+						if (!!error) {
+							throw -1;  // Stop trying to write to the rest of the files
+						}
+					}
+				);
+			});
+			} catch (error) {
+				console.log('Error in writing files', error);
+			}
+		}
 
 		var debugString = '';
 		// For each job description

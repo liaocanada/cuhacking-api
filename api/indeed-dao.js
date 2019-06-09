@@ -1,19 +1,27 @@
 let indeed = require('indeed-scraper');
 let getJobDescription = require('./indeed-job-parser');
 
-let getIndeedDescriptions = (description, city, province, level, jobType) => {
+let countryToHost = {
+    CA: 'www.indeed.ca',
+    US: 'www.indeed.com',
+    other: 'www.indeed.com'
+};
+
+let getIndeedDescriptions = (description, city, province, country, level, jobType) => {
 
     // No parameters - return null
     if (!description && !city && !jobType) {
         return null;
     }
 
+    let host = countryToHost[country] || countryToHost['other'];
+
     // Insert parameters into an object
     let queryOptions = {
-        host: 'www.indeed.com',
+        host: host,
         query: description,
         city: city + (!!province ? (', ' + province) : ''),
-        radius: '25',
+        radius: '50',
         level: level,
         jobType: jobType,
         maxAge: '',
@@ -22,6 +30,7 @@ let getIndeedDescriptions = (description, city, province, level, jobType) => {
     };
 
     console.log('Options: ', queryOptions);
+    // https://indeed.com/jobs?q=software&l=ottawa&radius=25&explvl=mid_level&fromage=&sort=relevance&jt=fulltime&start=
 
     let indeedJobDescriptions = indeed.query(queryOptions)
         .then(res => {
@@ -34,7 +43,7 @@ let getIndeedDescriptions = (description, city, province, level, jobType) => {
             return Promise.all(descriptions);
         })
         .then(objArray => {
-            return objArray.map(
+            return objArray.filter(Boolean).map(  // Removes falsy descriptions
                 obj => obj.description
             )
         })  // Array of descriptions (Strings)

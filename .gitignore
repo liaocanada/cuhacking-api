@@ -10,7 +10,10 @@
 
 # production
 /build
+
 cuhacking-api.zip
+descriptions.txt
+/descriptions
 
 # misc
 .DS_Store
