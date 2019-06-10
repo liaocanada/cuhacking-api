@@ -11,6 +11,8 @@ let specializations = require("../resources/specializations.js");
 let degreeLevels = { none: 0, bachelors: 0, masters: 0, phd: 0 };
 
 let getEducationStatistics = async (description, city, province, country, level, jobType) => {
+
+	// TODO add some error handling
 	
 	// Reset counters
 	Object.keys(specializations).forEach(key => specializations[key] = 0)

@@ -1,5 +1,6 @@
 let express = require('express');
 let cors = require('cors');
+let path = require('path');
 
 let getEducationStats = require("./api/education-statistics.js");
 
@@ -10,6 +11,10 @@ app.use(cors());
 
 // Log that server is up
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
 
 // GET route for getting stats
 app.get('/stats', (req, res) => {

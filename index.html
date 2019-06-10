@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API</title>
+</head>
+<body>
+    <h3>Welcome!</h3>
+    <p>To try out this API, make a GET request to <b>/stats</b> with the following query parameters:</p>
+    <ul>
+        <li>career: Any string, e.g. Database Analyst (required)</li>
+        <li>city: Any string, e.g. Ottawa</li>
+        <li>province: Any string, E.g. Ontario or ON</li>
+        <li>country: CA or US (required)</li>
+        <li>experience: [empty string representing all], entry_level, mid_level, senior_level</li>
+        <li>position: [empty string representing all], temporary, parttime, fulltime, internship, contract, commission</li>
+    </ul>
+    <p>Example usage: </p>
+    <a href="http://api.davidliao.ca/stats?career=Database%20Analyst&city=Ottawa&province=ON&country=CA&experience=&position=">
+        http://api.davidliao.ca/stats?career=Database%20Analyst&city=Ottawa&province=ON&country=CA&experience=&position=
+    </a>
+    <p>Example output: </p>
+    <pre id="json"></pre>
+    <script>
+        let output = {"total":145,"degrees":{"none":92,"bachelors":47,"masters":2,"phd":4},"specializations":[["Computer science",44,30.344827586206897],["Finance",17,11.724137931034482],["Economics",8,5.517241379310345],["Mathematics",7,4.827586206896552],["Geography",6,4.137931034482759],["Computer engineering",3,2.0689655172413794],["Software engineering",3,2.0689655172413794],["Physics",2,1.3793103448275863],["General business",2,1.3793103448275863]]}
+        document.getElementById("json").innerHTML = JSON.stringify(output, undefined, 2);
+    </script>
+</body>
+</html>
