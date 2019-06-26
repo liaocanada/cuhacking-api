@@ -32,5 +32,5 @@ from external job boards, such as Indeed and Github Jobs.
 
 We plan on adding better and more informative statistics like what specific soft/hard skills are needed, and possibly maps showing which areas have higher/lower average salaries for a given search.
 
-<!-- ### Interface
+<!-- ### Interfacee
 ![Screenshot](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/766/212/datas/gallery.jpg) -->
