@@ -1,0 +1,97 @@
+# NOTE: may cause brief downtime
+
+- name: Deploy web server for CC api
+  hosts: all
+  become: yes
+  become_user: root
+
+  vars:
+    server_id: cc-api
+    update_nginx_conf: yes
+
+  tasks:
+    # Begin
+    - name: Echo date
+      command: date
+      register: date
+    - debug: var=date.stdout_lines
+
+    # Node + npm
+    - name: Ensure node is installed
+      apt:
+        name: nodejs
+        state: present
+        update_cache: yes
+
+    - name: Ensure npm is installed
+      apt:
+        name: npm
+        state: present
+        update_cache: yes
+
+    # PM2 (via npm)
+    - name: Ensure pm2 is installed
+      community.general.npm:
+        name: pm2
+        state: present
+        global: yes
+        production: yes
+
+    # Clone repo
+    - name: Git checkout
+      git:
+        repo: "https://github.com/liaocanada/cuhacking-api.git"
+        dest: /home/ubuntu/cc-api
+
+    # Install dependencies
+    - name: Ensure package.json dependencies are installed
+      community.general.npm:
+        path: /home/ubuntu/cc-api
+        state: present
+
+    # Start server
+    - name: Ensure pm2 config file is present
+      copy:
+        src: ./resources/ecosystem.json
+        dest: /home/ubuntu/cc-api
+
+    - name: Ensure pm2 process is started
+      command: 'pm2 startOrReload ./ecosystem.json'
+      args:
+        chdir: /home/ubuntu/cc-api
+
+    # Nginx web server
+    - name: Ensure Nginx is installed
+      apt:
+        name: nginx
+        state: present
+
+    - name: Ensure default pages are removed
+      file:
+        path: /var/www/html/index.nginx-debian.html
+        state: absent
+
+    - name: Ensure configuration for default pages are removed
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Ensure Nginx reverse proxy is configured
+      copy:
+        src: ./resources/nodeapp.conf
+        dest: /etc/nginx/conf.d/
+        force: "{{ update_nginx_conf }}"
+
+    # TODO only restart if config changed
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+    # For generating SSL certs (https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx):
+    # sudo snap install core; sudo snap refresh core
+    # sudo snap install --classic certbot
+    # sudo ln -s /snap/bin/certbot /usr/bin/certbot
+    # sudo certbot --nginx
+    # sudo certbot renew --dry-run
