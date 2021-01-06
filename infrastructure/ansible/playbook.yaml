@@ -52,9 +52,9 @@
 
     # Start server
     - name: Ensure pm2 config file is present
-      copy:
-        src: ./resources/ecosystem.json
-        dest: "{{ app_root }}"
+      template:
+        src: ./resources/ecosystem.json.j2
+        dest: "{{ app_root }}/ecosystem.json"
 
     - name: Ensure pm2 process is started
       command: 'pm2 startOrReload ./ecosystem.json'
