@@ -7,6 +7,7 @@
 
   vars:
     server_id: cc-api
+    app_root: /home/ubuntu/cc-api
     update_nginx_conf: yes
 
   tasks:
@@ -41,24 +42,24 @@
     - name: Git checkout
       git:
         repo: "https://github.com/liaocanada/cuhacking-api.git"
-        dest: /home/ubuntu/cc-api
+        dest: "{{ app_root }}"
 
     # Install dependencies
     - name: Ensure package.json dependencies are installed
       community.general.npm:
-        path: /home/ubuntu/cc-api
+        path: "{{ app_root }}"
         state: present
 
     # Start server
     - name: Ensure pm2 config file is present
       copy:
         src: ./resources/ecosystem.json
-        dest: /home/ubuntu/cc-api
+        dest: "{{ app_root }}"
 
     - name: Ensure pm2 process is started
       command: 'pm2 startOrReload ./ecosystem.json'
       args:
-        chdir: /home/ubuntu/cc-api
+        chdir: "{{ app_root }}"
 
     # Nginx web server
     - name: Ensure Nginx is installed
