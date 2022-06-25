@@ -5,7 +5,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "indeed-scraper": "^3.0.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "path": "^0.12.7",
     "request-promise": "^4.2.4"
   },
